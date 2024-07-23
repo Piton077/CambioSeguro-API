@@ -15,7 +15,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/nestjs
       - APP_PORT=3000
-      - TOKEN_PROVIDER_EXPIRATION_PERIOD=60s
+      - TOKEN_PROVIDER_EXPIRATION_PERIOD=7d
       - PASSWORD_ENCRYPTION_ROUNDS=12
       - TOKEN_PROVIDER_SECRET=spiderman
 

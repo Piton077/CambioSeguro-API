@@ -1,0 +1,3 @@
+DELETE http://localhost:3000/transaction/66a0010d40c32bfee2218679
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2Vtb3JhbGVzd2F0YW5hYmVAZ21haWwuY29tIiwiaWF0IjoxNzIxNzYxMjMzLCJleHAiOjE3MjIzNjYwMzN9.qDGZtwddIl6RFszYeYNpS8LII8_97dq023eiU--KREE

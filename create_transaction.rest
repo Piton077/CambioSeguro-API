@@ -1,0 +1,8 @@
+POST http://localhost:3000/transaction
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2Vtb3JhbGVzd2F0YW5hYmVAZ21haWwuY29tIiwiaWF0IjoxNzIxNzYxMjMzLCJleHAiOjE3MjIzNjYwMzN9.qDGZtwddIl6RFszYeYNpS8LII8_97dq023eiU--KREE
+
+{
+    "tipo_cambio":"compra",
+    "monto_enviar":10000.0
+}
