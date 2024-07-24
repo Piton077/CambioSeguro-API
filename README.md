@@ -22,51 +22,43 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Descripción del proyecto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Esto es un demo de prueba para Prestamype
 
-## Installation
 
-```bash
-$ npm install
-```
 
-## Running the app
+## Instalación
 
-```bash
-# development
-$ npm run start
+Considerar las siguientes variables de entorno al iniciar el docker-compose
+- TOKEN_PROVIDER_EXPIRATION_PERIOD=7d// Tiempo de expiración del JWT
+- PASSWORD_ENCRYPTION_ROUNDS=12
+- TOKEN_PROVIDER_SECRET=spiderman// Secreto de JWT
+- APP_PORT=3000// Puerto App
+- EMAIL_HOST=sandbox.smtp.mailtrap.io// HOST DE SMTP 
+- EMAIL_USERNAME=86ec9c2fa95a4e// EMAIL SMTP
+- EMAIL_PASSWORD=f7a66e0e0dfe84// EMAIL PASSWORD SMTP
+- CAMBIO_SEGURO_API_URL=https://api.test.cambioseguro.com/api/v1.1 // API CAMBIO SEGURO
+- MONGO_URI="mongodb://mongo:27017/nestjs"//URI CONEXIÓN MONGODB
 
-# watch mode
-$ npm run start:dev
+## Consideraciones
+- Dado que es una demo el SMTP usado arriba 
+no llega a enviar el email al destinario a su cuenta real. Todo se queda en el servidor del SMTP
+![alt text](image.png)
+- Cuando aparezcan estos logs significa que la applicación esta lista para uso 
 
-# production mode
-$ npm run start:prod
-```
+![alt text](<Pasted Graphic.png>)
+
+
+## API Testing
+Para testear los endpoints revisar los **.rest files**. Para correr estos archivos instalar la extension REST Client en VSCode
 
 ## Test
 
 ```bash
 # unit tests
 $ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
 ## License
 
