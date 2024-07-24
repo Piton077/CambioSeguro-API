@@ -9,23 +9,25 @@ import { User } from './schemas/user.schema';
 
 @Injectable()
 export class MongooseUserRepository implements UserRepository {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async findByEmail(email: string): Promise<UserEntity | null> {
     const user = await this.userModel.findOne({ email }).exec();
     if (!user) return null;
     const entity = new UserEntity(user.email, user.password);
-    entity.id = user._id;
+    entity.id = user.id;
     return entity;
   }
 
-  async save(user: UserEntity): Promise<void> {
+  async save(user: UserEntity): Promise<UserEntity> {
     try {
       const newUserModel = new this.userModel({
         email: user.email,
         password: user.password,
       });
-      await newUserModel.save();
+      const entity = await newUserModel.save();
+      user.id = entity.id
+      return user
     } catch (error: any) {
       if (error.code && error.code == '11000') {
         throw new DuplicateUser(user.email);

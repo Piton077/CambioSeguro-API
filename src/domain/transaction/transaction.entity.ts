@@ -43,10 +43,10 @@ export class TransactionEntity extends DomainEntity {
   private calculateMoneyToReceive() {
     switch (this._transactionType.value) {
       case TransactionTypeEnum.Purchase:
-        this._moneyToReceive = this._moneyToSend * this._rate.purchasePrice;
+        this._moneyToReceive = Math.round(this._moneyToSend * this._rate.purchasePrice * 100) / 100;
         break;
       case TransactionTypeEnum.Sale:
-        this._moneyToReceive = this._moneyToSend / this._rate.salesPrice;
+        this._moneyToReceive = Math.round(this._moneyToSend / this._rate.salesPrice * 100) / 100;
         break;
     }
   }

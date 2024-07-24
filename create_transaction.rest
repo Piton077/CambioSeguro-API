@@ -3,6 +3,6 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Impvc2Vtb3JhbGVzd2F0YW5hYmUyMEBnbWFpbC5jb20iLCJpYXQiOjE3MjE4Mjk5NDAsImV4cCI6MTcyMjQzNDc0MH0.qlFlcspETHrT-zkhgusuoS4tRFED2wm1bChUZroeofA
 
 {
-    "tipo_cambio":"compra",
-    "monto_enviar":20000.0
+    "tipo_cambio":"venta",
+    "monto_enviar":123455
 }

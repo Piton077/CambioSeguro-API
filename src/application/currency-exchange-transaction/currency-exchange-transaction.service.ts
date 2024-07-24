@@ -1,8 +1,8 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { CurrencyExchangeAPI } from 'src/domain/ports/integrations/currency_exchange/currency_exchange.api';
 import { TransactionRepository } from 'src/domain/ports/repository/transaction.repository';
 import { UserRepository } from 'src/domain/ports/repository/user.repository';
-import { NotFoundTransaction } from 'src/domain/transaction/errors/not_found_transaction.error';
+import { TransactionNotFound } from 'src/domain/transaction/errors/transaction_not_found.error';
 import { TransactionEntity } from 'src/domain/transaction/transaction.entity';
 import { TransactionRateEntity } from 'src/domain/transaction/transaction_rate';
 import { TrasanctionType } from 'src/domain/transaction/transaction_type';
@@ -10,6 +10,8 @@ import { CurrencyExchangeTransactionInputDTO } from './dto/curreny-exchange-tran
 
 @Injectable()
 export class CurrencyExchangeTransactionService {
+
+  private readonly logger = new Logger(CurrencyExchangeTransactionService.name);
   constructor(
     @Inject(UserRepository)
     private readonly userRepository: UserRepository,
@@ -17,7 +19,7 @@ export class CurrencyExchangeTransactionService {
     private readonly currencyExchangeAPI: CurrencyExchangeAPI,
     @Inject(TransactionRepository)
     private readonly transactionRepository: TransactionRepository,
-  ) {}
+  ) { }
 
   async createNewTransaction(
     email: string,
@@ -36,7 +38,9 @@ export class CurrencyExchangeTransactionService {
       input.monto_enviar,
     );
     transaction.userId = user.id;
-    this.transactionRepository.save(transaction);
+    const newTransaction = await this.transactionRepository.save(transaction);
+    this.logger.log(newTransaction)
+    return newTransaction
   }
 
   async getAllPaginatedTransaction(email: string, currentPage = 1, limit = 8) {
@@ -70,7 +74,10 @@ export class CurrencyExchangeTransactionService {
     const transaction = await this.transactionRepository.findById(
       transactionId,
     );
-    return {
+    if (!transaction) {
+      throw new TransactionNotFound(transactionId)
+    }
+    const response = {
       transaction: {
         tipo_cambio: transaction.type.value,
         tasa_de_cambio: {
@@ -82,6 +89,7 @@ export class CurrencyExchangeTransactionService {
         id: transaction.id,
       },
     };
+    return response
   }
 
   async deleteTransactionById(transactionId: string) {
@@ -89,7 +97,8 @@ export class CurrencyExchangeTransactionService {
       transactionId,
     );
     if (!transaction) {
-      throw new NotFoundTransaction(transactionId);
+      throw new TransactionNotFound(transactionId);
     }
+    return transaction
   }
 }

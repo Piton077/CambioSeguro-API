@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -9,22 +10,23 @@ import {
   Query,
   Req,
   Request,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { AuthGuard } from '../auth/guard';
-import { CurrencyExchangeTransactionService } from './curreny-exchange-transaction.service';
+import { CurrencyExchangeTransactionService } from './currency-exchange-transaction.service';
+import { CurrencyExchangeTransactionInputDTO } from './dto/curreny-exchange-transaction.input.dto';
 
 @UseGuards(AuthGuard)
 @Controller('transaction')
 export class CurrencyExchangeTransactionController {
-  constructor(private service: CurrencyExchangeTransactionService) {}
+  constructor(private service: CurrencyExchangeTransactionService) { }
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async createTransaction(@Request() request: any) {
-    return await this.service.createNewTransaction(
+  async createTransaction(@Request() request: any, @Body() body: CurrencyExchangeTransactionInputDTO) {
+    await this.service.createNewTransaction(
       request.user.email,
-      request.body,
+      body
     );
   }
 
@@ -49,7 +51,7 @@ export class CurrencyExchangeTransactionController {
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete('/:id')
-  deleteTransaction(@Param('id') id: string) {
-    return this.service.deleteTransactionById(id);
+  async deleteTransaction(@Param('id') id: string) {
+    await this.service.deleteTransactionById(id);
   }
 }

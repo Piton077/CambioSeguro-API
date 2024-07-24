@@ -15,7 +15,7 @@ import { Transaction } from './schemas/transaction.schema';
 export class MongooseTransactionRepository implements TransactionRepository {
   constructor(
     @InjectModel(Transaction.name) private transactionModel: Model<Transaction>,
-  ) {}
+  ) { }
 
   async deleteTransaction(
     transactionId: string,
@@ -27,10 +27,13 @@ export class MongooseTransactionRepository implements TransactionRepository {
     return this.restoreTransaction(response);
   }
 
-  async findById(transactionId: string): Promise<TransactionEntity> {
+  async findById(transactionId: string): Promise<TransactionEntity | null> {
     const restoredTransaction = await this.transactionModel
       .findById(transactionId)
       .exec();
+    if (!restoredTransaction) {
+      return null
+    }
     return this.restoreTransaction(restoredTransaction);
   }
 
@@ -54,7 +57,7 @@ export class MongooseTransactionRepository implements TransactionRepository {
     };
   }
 
-  async save(transaction: TransactionEntity): Promise<void> {
+  async save(transaction: TransactionEntity): Promise<TransactionEntity> {
     const document = new this.transactionModel({
       tipo_de_cambio: transaction.type.value,
       tasa_de_cambio: {
@@ -65,8 +68,9 @@ export class MongooseTransactionRepository implements TransactionRepository {
       monto_recibir: transaction.moneyToReceive,
       id_usuario: transaction.userId,
     });
-
-    await document.save();
+    const transactionDocument = await document.save();
+    transaction.id = transactionDocument.id
+    return transaction
   }
 
   private restoreTransaction(transaction: Transaction) {

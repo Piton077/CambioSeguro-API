@@ -2,7 +2,7 @@ import { TransactionEntity } from 'src/domain/transaction/transaction.entity';
 
 export interface TransactionRepository {
   deleteTransaction(transactionId: string): Promise<TransactionEntity | null>;
-  save(transaction: TransactionEntity): Promise<void>;
+  save(transaction: TransactionEntity): Promise<TransactionEntity>;
   findById(transactionId: string): Promise<TransactionEntity | null>;
   paginateTransactions(
     userId: string,

@@ -16,7 +16,7 @@ import {
 import { MongooseTransactionRepository } from 'src/infrastructure/mongoose/transaction.repository';
 import { MongooseUserRepository } from 'src/infrastructure/mongoose/user.repository';
 import { CurrencyExchangeTransactionController } from './currency-exchange-transaction.controller';
-import { CurrencyExchangeTransactionService } from './curreny-exchange-transaction.service';
+import { CurrencyExchangeTransactionService } from './currency-exchange-transaction.service';
 
 @Module({
   imports: [
@@ -34,4 +34,4 @@ import { CurrencyExchangeTransactionService } from './curreny-exchange-transacti
   ],
   controllers: [CurrencyExchangeTransactionController],
 })
-export class CurrencyExchangeTransactionModule {}
+export class CurrencyExchangeTransactionModule { }

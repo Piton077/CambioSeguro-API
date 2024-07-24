@@ -5,12 +5,14 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { NotFoundTransaction } from 'src/domain/transaction/errors/not_found_transaction.error';
+import { CustomError } from 'src/domain/base/error';
+import { TransactionCorrupted } from 'src/domain/transaction/errors/transaction_corrupted.error';
+import { TransactionNotFound } from 'src/domain/transaction/errors/transaction_not_found.error';
 import { DuplicateUser } from 'src/domain/user/errors/duplicate_user.error';
-import { NotFoundUser } from 'src/domain/user/errors/not_found_user.error';
+import { UserNotFound } from 'src/domain/user/errors/user_not_found';
 import { WrongPassword } from 'src/domain/user/errors/wrong_password';
 
-@Catch(Error)
+@Catch(CustomError)
 export class HandlingExceptionFilter implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -29,14 +31,17 @@ export class HandlingExceptionFilter implements ExceptionFilter {
     if (exception instanceof DuplicateUser) {
       return HttpStatus.CONFLICT;
     }
-    if (exception instanceof NotFoundTransaction) {
+    if (exception instanceof TransactionNotFound) {
       return HttpStatus.NOT_FOUND;
     }
     if (exception instanceof WrongPassword) {
       return HttpStatus.UNAUTHORIZED;
     }
-    if (exception instanceof NotFoundUser) {
+    if (exception instanceof UserNotFound) {
       return HttpStatus.NOT_FOUND;
+    }
+    if (exception instanceof TransactionCorrupted) {
+      return HttpStatus.CONFLICT;
     }
     return HttpStatus.INTERNAL_SERVER_ERROR;
   }

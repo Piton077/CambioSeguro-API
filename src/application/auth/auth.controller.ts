@@ -12,7 +12,7 @@ import { SignUpInputDto } from './dto/input/signup.input.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
@@ -27,7 +27,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post('sign-up')
-  singUp(@Body() request: SignUpInputDto) {
-    return this.authService.register(request);
+  async singUp(@Body() request: SignUpInputDto) {
+    await this.authService.register(request);
   }
 }
